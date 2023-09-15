@@ -1,15 +1,18 @@
-//! A Subject Identifier is a JSON [RFC8259](https://www.rfc-editor.org/info/rfc8259) object whose
-//! contents may be used to identify a subject within some context. An Identifier Format is a named
-//! definition of a set of information that may be used to identify a subject, and the rules for
-//! encoding that information as a Subject Identifier; they define the syntax and semantics of
-//! Subject Identifiers. A Subject Identifier MUST conform to a specific Identifier Format,
-//! and MUST contain a "format" member whose value is the name of that Identifier Format.
+//! A Subject Identifier is a JSON [`RFC8259`] object whose contents may be used to identify a
+//! subject within some context. An Identifier Format is a named definition of a set of information
+//! that may be used to identify a subject, and the rules for encoding that information as a
+//! Subject Identifier; they define the syntax and semantics of Subject Identifiers. A Subject
+//! Identifier MUST conform to a specific Identifier Format, and MUST contain a "format" member
+//! whose value is the name of that Identifier Format.
+//!
+//! [`RFC8259`]: https://www.rfc-editor.org/info/rfc8259
 //!
 //! Every Identifier Format MUST have a unique name registered in the IANA "Security Event
-//! Identifier Formats" registry, or a Collision-Resistant Name as defined in
-//! [RFC7519](https://www.rfc-editor.org/info/rfc7519). Identifier Formats that are expected to
-//! be used broadly by a variety of parties SHOULD be registered in the "Security Event Identifier
-//! Formats" registry.
+//! Identifier Formats" registry, or a Collision-Resistant Name as defined in [`RFC7519`].
+//! Identifier Formats that are expected to be used broadly by a variety of parties SHOULD be
+//! registered in the "Security Event Identifier Formats" registry.
+//!
+//! [`RFC7519`]: https://www.rfc-editor.org/info/rfc7519
 //!
 //! Identifier Format MAY describe more members than are strictly necessary to identify a subject,
 //! and MAY describe conditions under which those members are required, optional, or prohibited.
@@ -20,16 +23,20 @@
 //! or not described by its Identifier Format, and MUST contain all members required by its
 //! Identifier Format.
 //!
-//! See: [draft-ietf-secevent-subject-identifiers](https://datatracker.ietf.org/doc/html/draft-ietf-secevent-subject-identifiers)
+//! See: [`SubjectID`]
+//!
+//! [`SubjectID`]: https://datatracker.ietf.org/doc/html/draft-ietf-secevent-subject-identifiers
 
 /// [Id] defines the Subject Identifiers in the different formats.
 #[derive(Debug, Clone)]
 pub enum Id {
     /// The Account Identifier Format identifies a subject using an account at a service provider,
-    /// identified with an "acct" URI as defined in [RFC7565](https://www.rfc-editor.org/info/rfc7565).
-    /// An account is an arrangement or agreement through which a user gets access to a service and
-    /// gets a unique identity with the service provider. The Account Identifier Format is
-    /// identified by a value of "account".
+    /// identified with an "acct" URI as defined in [`RFC7565`]. An account is an arrangement or
+    /// agreement through which a user gets access to a service and gets a unique identity with
+    /// the service provider. The Account Identifier Format is identified by a value of "account".
+    ///
+    /// [`RFC7565`]: https://www.rfc-editor.org/info/rfc7565
+    ///
     /// ```
     /// # fn main() {
     /// use subjectid::Id;
@@ -46,8 +53,9 @@ pub enum Id {
     },
     /// The Email Identifier Format identifies a subject using an email address. The value of the
     /// "email" member MUST identify a mailbox to which email may be delivered, in accordance with
-    /// [RFC5321](https://www.rfc-editor.org/info/rfc5321). The Email Identifier Format is
-    /// identified by the name "email".
+    /// [`RFC5321`]. The Email Identifier Format is identified by the name "email".
+    ///
+    /// [`RFC5321`]: https://www.rfc-editor.org/info/rfc5321
     ///
     /// Email canonicalization is not standardized, and there is no way for the event recipient to
     /// determine the mail provider’s canonicalization method. Therefore, the recipient SHOULD apply
@@ -65,19 +73,23 @@ pub enum Id {
     /// ```
     Email {
         /// A string containing the email address of the subject, formatted as an "addr-spec" as
-        /// defined in Section 3.4.1 of [RFC5322](https://www.rfc-editor.org/info/rfc5322).
-        /// The "email" member is REQUIRED and MUST NOT be null or empty. The value of the "email"
-        /// member MUST identify a mailbox to which email may be delivered, in accordance with
-        /// [RFC5321](https://www.rfc-editor.org/info/rfc5321).
+        /// defined in Section 3.4.1 of [`RFC5322`]. The "email" member is REQUIRED and MUST NOT be
+        /// null or empty. The value of the "email" member MUST identify a mailbox to which email
+        /// may be delivered, in accordance with [`RFC5321`].
+        ///
+        /// [`RFC5321`]: https://www.rfc-editor.org/info/rfc5321
+        /// [`RFC5322`]: https://www.rfc-editor.org/info/rfc5322
         email: String,
     },
     /// The Issuer and Subject Identifier Format identifies a subject using a pair of "iss" and
     /// "sub" members, analogous to how subjects are identified using the "iss" and "sub" claims
-    /// in OpenID Connect [OpenID.Core](https://openid.net/specs/openid-connect-core-1_0.html)
-    /// ID Tokens. These members MUST follow the formats of the "iss" member and "sub" member
-    /// defined by [RFC7519](https://www.rfc-editor.org/info/rfc7519), respectively. Both the
-    /// "iss" member and the "sub" member are REQUIRED and MUST NOT be null or empty. The Issuer
-    /// and Subject Identifier Format is identified by the name "iss_sub".
+    /// in OpenID Connect [`OpenID.Core`] ID Tokens. These members MUST follow the formats of the
+    /// "iss" member and "sub" member defined by [`RFC7519`], respectively. Both the "iss" member
+    /// and the "sub" member are REQUIRED and MUST NOT be null or empty. The Issuer and Subject
+    /// Identifier Format is identified by the name "iss_sub".
+    ///
+    /// [`OpenID.Core`]: https://openid.net/specs/openid-connect-core-1_0.html
+    /// [`RFC7519`]: https://www.rfc-editor.org/info/rfc7519
     ///
     /// ```
     /// # fn main() {
@@ -133,13 +145,17 @@ pub enum Id {
     /// ```
     PhoneNumber {
         /// String containing the full telephone number of the subject, including international
-        /// dialing prefix, formatted according to E.164 [E164](https://www.itu.int/rec/T-REC-E.164-201011-I/en).
+        /// dialing prefix, formatted according to E.164 [`E164`].
         /// The "phone_number" member is REQUIRED and MUST NOT be null or empty.
+        ///
+        /// [`E164`]: https://www.itu.int/rec/T-REC-E.164-201011-I/en
         phone_number: String,
     },
     /// The Decentralized Identifier Format identifies a subject using a Decentralized Identifier
-    /// (DID) URL as defined in [DID](https://www.w3.org/TR/did-core/).
+    /// (DID) URL as defined in [`DID`].
     /// The Decentralized Identifier Format is identified by the name "did".
+    ///
+    /// [`DID`]: https://www.w3.org/TR/did-core/
     ///
     /// ```
     /// # fn main() {
@@ -157,9 +173,11 @@ pub enum Id {
         url: String,
     },
     /// The Uniform Resource Identifier (URI) Format identifies a subject using a URI as defined in
-    /// [RFC3986](https://www.rfc-editor.org/info/rfc3986). This identifier format makes no assumptions
-    /// or guarantees with regard to the content, scheme, or reachability of the URI within the field.
+    /// [`RFC3986`]. This identifier format makes no assumptions or guarantees with regard to
+    /// the content, scheme, or reachability of the URI within the field.
     /// The URI format is identified by the name "uri".
+    ///
+    /// [`RFC3986`]: https://www.rfc-editor.org/info/rfc3986
     ///
     /// ```
     /// # fn main() {

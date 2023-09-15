@@ -9,7 +9,7 @@ specifies the email address.
 
 **Implementation:**
 
-- Struct-Associated Enum
+- Named Fields on Enum Variants
 
 ## Enum
 
@@ -40,5 +40,25 @@ struct EmailId {
 enum Id {
     Account(AccountId),
     Email(EmailId),
+}
+```
+
+## Named Fields on Enum Variants
+
+The data associated with identifier formats is simple:
+
+- No necessity for builder or constructor
+- Identifier format cannot have behavior that Subject Identifier itself
+  does not have. So, a format need not have its own associated methods.
+- Information associated with an identifier format is an integral part of
+  the subject identifier itself.
+
+Due to the above reasons, it makes sense to define the information associated
+with an identifier format in the enum variant itself as named field.
+
+```rust
+enum Id {
+    Account { uri: String },
+    Email { email: String },
 }
 ```

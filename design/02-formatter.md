@@ -1,7 +1,9 @@
 ---
 title: Subject ID Format
-description: Design decision for providing API to obtain the format name correspoding to a subject identifier
+description: Design decision for providing API to obtain the format name corresponding to a subject identifier.
+editUrl: https://github.com/bingxueshuang/subjectid-rs/edit/main/design/02-formatter.md
 ---
+
 # Formatter
 
 Since we can have subject identifiers of different specified types, we need to
@@ -9,7 +11,7 @@ have a way to display the format name of any given identifier.
 
 **Implementation:**
 
-- `format` method > Global Constants
+- `format` method > Associated Constants
 - Format Constants
 
 ## `format` method
@@ -45,6 +47,24 @@ impl Id {
         match self {
             Id::Account { .. } => ACCOUNT,
             Id::Email { .. } => EMAIL,
+        }
+    }
+}
+```
+
+### Associated constants
+
+Each of the constants can be made associated with the subject identifier, thus
+no cluttering global namespace (module-level).
+
+```rust
+impl Id {
+    const ACCOUNT: &'static str = "account";
+    const EMAIL: &'static str = "email";
+    fn format(&self) -> &'static str {
+        match self {
+            Id::Account { .. } => Id::ACCOUNT,
+            Id::Email { .. } => Id::EMAIL,
         }
     }
 }

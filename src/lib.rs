@@ -83,7 +83,7 @@ pub enum Id {
     },
     /// The Issuer and Subject Identifier Format identifies a subject using a pair of "iss" and
     /// "sub" members, analogous to how subjects are identified using the "iss" and "sub" claims
-    /// in OpenID Connect [`OpenID.Core`] ID Tokens. These members MUST follow the formats of the
+    /// in OpenID Connect [[`OpenID.Core`]] ID Tokens. These members MUST follow the formats of the
     /// "iss" member and "sub" member defined by [`RFC7519`], respectively. Both the "iss" member
     /// and the "sub" member are REQUIRED and MUST NOT be null or empty. The Issuer and Subject
     /// Identifier Format is identified by the name "iss_sub".
@@ -145,7 +145,7 @@ pub enum Id {
     /// ```
     PhoneNumber {
         /// String containing the full telephone number of the subject, including international
-        /// dialing prefix, formatted according to E.164 [`E164`].
+        /// dialing prefix, formatted according to E.164 [[`E164`]].
         /// The "phone_number" member is REQUIRED and MUST NOT be null or empty.
         ///
         /// [`E164`]: https://www.itu.int/rec/T-REC-E.164-201011-I/en
@@ -195,15 +195,15 @@ pub enum Id {
     },
 }
 
-pub const FORMAT_ACCOUNT: &'static str = "account";
-pub const FORMAT_EMAIL: &'static str = "email";
-pub const FORMAT_ISSUER_SUBJECT: &'static str = "iss_sub";
-pub const FORMAT_OPAQUE: &'static str = "opaque";
-pub const FORMAT_PHONE_NUMBER: &'static str = "phone_number";
-pub const FORMAT_DID: &'static str = "did";
-pub const FORMAT_URI: &'static str = "uri";
-
 impl Id {
+    const FORMAT_ACCOUNT: &'static str = "account";
+    const FORMAT_EMAIL: &'static str = "email";
+    const FORMAT_ISSUER_SUBJECT: &'static str = "iss_sub";
+    const FORMAT_OPAQUE: &'static str = "opaque";
+    const FORMAT_PHONE_NUMBER: &'static str = "phone_number";
+    const FORMAT_DID: &'static str = "did";
+    const FORMAT_URI: &'static str = "uri";
+
     /// The name of the Identifier Format as defined in Security Event Identifier Formats registry.
     ///
     /// ```
@@ -215,13 +215,13 @@ impl Id {
     /// ```
     pub fn format(&self) -> &'static str {
         match self {
-            Id::Account { .. } => FORMAT_ACCOUNT,
-            Id::Email { .. } => FORMAT_EMAIL,
-            Id::IssuerSubject { .. } => FORMAT_ISSUER_SUBJECT,
-            Id::Opaque { .. } => FORMAT_OPAQUE,
-            Id::PhoneNumber { .. } => FORMAT_PHONE_NUMBER,
-            Id::DID { .. } => FORMAT_DID,
-            Id::URI { .. } => FORMAT_URI,
+            Id::Account { .. } => Id::FORMAT_ACCOUNT,
+            Id::Email { .. } => Id::FORMAT_EMAIL,
+            Id::IssuerSubject { .. } => Id::FORMAT_ISSUER_SUBJECT,
+            Id::Opaque { .. } => Id::FORMAT_OPAQUE,
+            Id::PhoneNumber { .. } => Id::FORMAT_PHONE_NUMBER,
+            Id::DID { .. } => Id::FORMAT_DID,
+            Id::URI { .. } => Id::FORMAT_URI,
         }
     }
 }

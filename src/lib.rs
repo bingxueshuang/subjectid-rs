@@ -177,6 +177,14 @@ pub enum Id {
     },
 }
 
+pub const FORMAT_ACCOUNT: &'static str = "account";
+pub const FORMAT_EMAIL: &'static str = "email";
+pub const FORMAT_ISSUER_SUBJECT: &'static str = "iss_sub";
+pub const FORMAT_OPAQUE: &'static str = "opaque";
+pub const FORMAT_PHONE_NUMBER: &'static str = "phone_number";
+pub const FORMAT_DID: &'static str = "did";
+pub const FORMAT_URI: &'static str = "uri";
+
 impl Id {
     /// The name of the Identifier Format as defined in Security Event Identifier Formats registry.
     ///
@@ -189,16 +197,13 @@ impl Id {
     /// ```
     pub fn format(&self) -> &'static str {
         match self {
-            Id::Account { uri: _ } => "account",
-            Id::Email { email: _ } => "email",
-            Id::IssuerSubject {
-                issuer: _,
-                subject: _,
-            } => "iss_sub",
-            Id::Opaque { id: _ } => "opaque",
-            Id::PhoneNumber { phone_number: _ } => "phone_number",
-            Id::DID { url: _ } => "did",
-            Id::URI { uri: _ } => "uri",
+            Id::Account { .. } => FORMAT_ACCOUNT,
+            Id::Email { .. } => FORMAT_EMAIL,
+            Id::IssuerSubject { .. } => FORMAT_ISSUER_SUBJECT,
+            Id::Opaque { .. } => FORMAT_OPAQUE,
+            Id::PhoneNumber { .. } => FORMAT_PHONE_NUMBER,
+            Id::DID { .. } => FORMAT_DID,
+            Id::URI { .. } => FORMAT_URI,
         }
     }
 }

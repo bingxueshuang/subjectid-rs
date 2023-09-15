@@ -194,3 +194,18 @@ pub enum Id {
     /// The URI Identifier Format identifies a subject using a URI (Uniform Resource Identifier).
     URI(UriId),
 }
+
+impl Id {
+    /// The name of the Identifier Format as defined in Security Event Identifier Formats registry.
+    pub fn format(&self) -> &'static str {
+        match self {
+            Id::Account(_) => "account",
+            Id::Email(_) => "email",
+            Id::IssuerSubject(_) => "iss_sub",
+            Id::Opaque(_) => "opaque",
+            Id::PhoneNumber(_) => "phone_number",
+            Id::DID(_) => "did",
+            Id::URI(_) => "uri",
+        }
+    }
+}

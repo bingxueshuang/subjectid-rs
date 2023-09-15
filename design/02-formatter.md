@@ -1,3 +1,7 @@
+---
+title: Subject ID Format
+description: Design decision for providing API to obtain the format name correspoding to a subject identifier
+---
 # Formatter
 
 Since we can have subject identifiers of different specified types, we need to

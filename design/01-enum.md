@@ -1,3 +1,7 @@
+---
+title: Subject ID as Enum
+description: Design decision of choosing enum over struct for various subject id formats
+---
 # Enum and Structs
 
 Subject Identifiers are one of the few formats as defined in the registry.

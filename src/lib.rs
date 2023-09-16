@@ -27,8 +27,12 @@
 //!
 //! [`SubjectID`]: https://datatracker.ietf.org/doc/html/draft-ietf-secevent-subject-identifiers
 
+use ::serde::{Deserialize, Serialize};
+
 /// [Id] defines the Subject Identifiers in the different formats.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "format")]
+#[serde(rename_all = "snake_case")]
 pub enum Id {
     /// The Account Identifier Format identifies a subject using an account at a service provider,
     /// identified with an "acct" URI as defined in [`RFC7565`]. An account is an arrangement or
@@ -101,6 +105,7 @@ pub enum Id {
     /// println!("{:?}", subid);
     /// # }
     /// ```
+    #[serde(rename = "iss_sub")]
     IssuerSubject {
         /// The "iss" (issuer) member identifies the principal that issued the JWT. The processing
         /// of this claim is generally application specific. The "iss" value is a case-sensitive
@@ -166,6 +171,7 @@ pub enum Id {
     /// println!("{:?}", subid);
     /// # }
     /// ```
+    #[serde(rename = "did")]
     DID {
         /// A DID URL for the DID Subject being identified. The value of the "url" member MUST be
         /// a valid DID URL and MAY be a bare DID.
@@ -188,6 +194,7 @@ pub enum Id {
     /// println!("{:?}", subid);
     /// # }
     /// ```
+    #[serde(rename = "uri")]
     URI {
         /// URI for the subject being identified. The "uri" member is REQUIRED and MUST NOT
         /// be null or empty.

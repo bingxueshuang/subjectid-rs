@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - docs/*
+      - docs/**
 
 jobs:
   # Astro build job
@@ -23,7 +23,7 @@ jobs:
         with:
           ref: main
           sparse-checkout: |
-            design
+            docs
           path: branch-main
       # move required markdown content to docs directory
       - name: Move doc content

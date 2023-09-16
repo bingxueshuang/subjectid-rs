@@ -202,7 +202,42 @@ pub enum Id {
     },
 }
 
-impl Id {
+/// SubjectID is the core type of the crate that defines subject identifier for Security Event Token
+/// (SET). Either a subject identifier has to be [Id] or [Aliases].
+///
+/// ```
+/// use subjectid::{Id, SubjectID};
+/// let subid = SubjectID::Identifier(
+///     Id::Opaque { id: "1i3j4l".to_owned() },
+/// );
+/// println!("{:?}", subid);
+/// ```
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum SubjectID {
+    Identifier(Id),
+    Aliases(Aliases),
+}
+
+/// The Aliases Identifier Format describes a subject that is identified with a list of different
+/// Subject Identifiers. It is intended for use when a variety of identifiers have been shared with
+/// the party that will be interpreting the Subject Identifier, and it is unknown which of those
+/// identifiers they will recognize or support. This format is identified by the name "aliases".
+/// "aliases" Subject Identifiers MUST NOT be nested; i.e., the "identifiers" member of an "aliases"
+/// Subject Identifier MUST NOT contain a Subject Identifier in the "aliases" format.
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(tag = "format")]
+#[serde(rename = "aliases")]
+pub struct Aliases {
+    /// Member "identifiers" denotes JSON array containing one or more Subject Identifiers.
+    /// Each Subject Identifier in the array MUST identify the same entity. "identifiers" member is
+    /// REQUIRED and MUST NOT be null or empty. It MAY contain multiple instances of the same
+    /// Identifier Format (e.g., multiple Email Subject Identifiers),
+    /// but SHOULD NOT contain exact duplicates.
+    pub identifiers: Vec<Id>,
+}
+
+impl SubjectID {
     const FORMAT_ACCOUNT: &'static str = "account";
     const FORMAT_EMAIL: &'static str = "email";
     const FORMAT_ISSUER_SUBJECT: &'static str = "iss_sub";
@@ -210,7 +245,17 @@ impl Id {
     const FORMAT_PHONE_NUMBER: &'static str = "phone_number";
     const FORMAT_DID: &'static str = "did";
     const FORMAT_URI: &'static str = "uri";
+    const FORMAT_ALIASES: &'static str = "aliases";
 
+    pub fn format(&self) -> &'static str {
+        match self {
+            Self::Identifier(id) => id.format(),
+            Self::Aliases(..) => Self::FORMAT_ALIASES,
+        }
+    }
+}
+
+impl Id {
     /// The name of the Identifier Format as defined in Security Event Identifier Formats registry.
     ///
     /// ```
@@ -222,13 +267,13 @@ impl Id {
     /// ```
     pub fn format(&self) -> &'static str {
         match self {
-            Id::Account { .. } => Id::FORMAT_ACCOUNT,
-            Id::Email { .. } => Id::FORMAT_EMAIL,
-            Id::IssuerSubject { .. } => Id::FORMAT_ISSUER_SUBJECT,
-            Id::Opaque { .. } => Id::FORMAT_OPAQUE,
-            Id::PhoneNumber { .. } => Id::FORMAT_PHONE_NUMBER,
-            Id::DID { .. } => Id::FORMAT_DID,
-            Id::URI { .. } => Id::FORMAT_URI,
+            Self::Account { .. } => SubjectID::FORMAT_ACCOUNT,
+            Self::Email { .. } => SubjectID::FORMAT_EMAIL,
+            Self::IssuerSubject { .. } => SubjectID::FORMAT_ISSUER_SUBJECT,
+            Self::Opaque { .. } => SubjectID::FORMAT_OPAQUE,
+            Self::PhoneNumber { .. } => SubjectID::FORMAT_PHONE_NUMBER,
+            Self::DID { .. } => SubjectID::FORMAT_DID,
+            Self::URI { .. } => SubjectID::FORMAT_URI,
         }
     }
 }

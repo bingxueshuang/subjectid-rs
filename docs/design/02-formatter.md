@@ -1,7 +1,7 @@
 ---
 title: Subject ID Format
 description: Design decision for providing API to obtain the format name corresponding to a subject identifier.
-editUrl: https://github.com/bingxueshuang/subjectid-rs/edit/main/design/02-formatter.md
+editUrl: https://github.com/bingxueshuang/subjectid-rs/edit/main/docs/design/02-formatter.md
 ---
 
 # Formatter

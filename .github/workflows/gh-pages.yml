@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - docs/*
 
 jobs:
   # Astro build job
@@ -25,7 +27,7 @@ jobs:
           path: branch-main
       # move required markdown content to docs directory
       - name: Move doc content
-        run: mv branch-main/design src/content/docs
+        run: mv branch-main/docs/* src/content/docs
       # build with astro
       - name: Astro build
         uses: withastro/action@v0

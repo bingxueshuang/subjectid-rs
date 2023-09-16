@@ -1,7 +1,7 @@
 ---
 title: Subject ID as Enum
 description: Design decision of choosing enum over struct for various subject id formats
-editUrl: https://github.com/bingxueshuang/subjectid-rs/edit/main/design/01-enum.md
+editUrl: https://github.com/bingxueshuang/subjectid-rs/edit/main/docs/design/01-enum.md
 ---
 
 # Enum and Structs

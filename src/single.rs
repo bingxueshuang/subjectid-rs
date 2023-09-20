@@ -8,7 +8,7 @@ use crate::SubjectId;
 
 /// Atomic defines atomic subject identifier formats. They are 'atomic' because (unlike aliases)
 /// these are not composed of other subject identifiers themselves.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 #[serde(tag = "format")]
 pub enum Atomic {

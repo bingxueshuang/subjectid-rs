@@ -28,9 +28,10 @@
 //! [`SubjectID`]: https://datatracker.ietf.org/doc/html/draft-ietf-secevent-subject-identifiers
 
 use ::serde::{Deserialize, Serialize};
-mod single;
 
 pub use single::Atomic;
+
+mod single;
 
 /// SubjectID is the core type of the crate that defines subject identifier for Security Event Token
 /// (SET). Either a subject identifier has to be [Atomic] or [Aliases].
@@ -42,7 +43,7 @@ pub use single::Atomic;
 /// );
 /// println!("{:?}", subid);
 /// ```
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SubjectId {
     Atomic(Atomic),
@@ -55,7 +56,7 @@ pub enum SubjectId {
 /// identifiers they will recognize or support. This format is identified by the name "aliases".
 /// "aliases" Subject Identifiers MUST NOT be nested; i.e., the "identifiers" member of an "aliases"
 /// Subject Identifier MUST NOT contain a Subject Identifier in the "aliases" format.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "format")]
 #[serde(rename = "aliases")]
 pub struct Aliases {
@@ -89,5 +90,39 @@ impl SubjectId {
             Self::Atomic(id) => id.format(),
             Self::Aliases(..) => Self::FORMAT_ALIASES,
         }
+    }
+}
+
+impl From<Atomic> for SubjectId {
+    fn from(value: Atomic) -> Self {
+        Self::Atomic(value)
+    }
+}
+
+impl From<Aliases> for SubjectId {
+    fn from(value: Aliases) -> Self {
+        Self::Aliases(value)
+    }
+}
+
+impl From<Vec<Atomic>> for Aliases {
+    fn from(identifiers: Vec<Atomic>) -> Self {
+        Self { identifiers }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_convert() {
+        let identifiers = vec![Atomic::Opaque {
+            id: "qlh2k3u".to_owned(),
+        }];
+        let aliases = Aliases::from(identifiers.clone());
+        let got = SubjectId::from(aliases);
+        let want = SubjectId::Aliases(Aliases { identifiers });
+        assert_eq!(got, want);
     }
 }

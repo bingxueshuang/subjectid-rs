@@ -4,7 +4,7 @@
 
 use serde::{Deserialize, Serialize};
 
-use crate::SubjectId;
+use crate::{PhoneNumber, SubjectId};
 
 /// Atomic defines atomic subject identifier formats. They are 'atomic' because (unlike aliases)
 /// these are not composed of other subject identifiers themselves.
@@ -23,7 +23,7 @@ pub enum Atomic {
     /// that corresponds to [`FORMAT_ACCOUNT`].
     ///
     /// [`RFC7565`]: https://www.rfc-editor.org/info/rfc7565
-    /// [`FORMAT_ACCOUNT`]: crate::SubjectId::FORMAT_ACCOUNT
+    /// [`FORMAT_ACCOUNT`]: SubjectId::FORMAT_ACCOUNT
     ///
     /// ```
     /// use subjectid::Atomic;
@@ -54,7 +54,7 @@ pub enum Atomic {
     /// [`FORMAT_EMAIL`].
     ///
     /// [`RFC5321`]: https://www.rfc-editor.org/info/rfc5321
-    /// [`FORMAT_EMAIL`]: crate::SubjectId::FORMAT_EMAIL
+    /// [`FORMAT_EMAIL`]: SubjectId::FORMAT_EMAIL
     ///
     /// ```
     /// use subjectid::Atomic;
@@ -84,7 +84,7 @@ pub enum Atomic {
     ///
     /// [`OpenID.Core`]: https://openid.net/specs/openid-connect-core-1_0.html
     /// [`RFC7519`]: https://www.rfc-editor.org/info/rfc7519
-    /// [`FORMAT_ISSUER_SUBJECT`]: crate::SubjectId::FORMAT_ISSUER_SUBJECT
+    /// [`FORMAT_ISSUER_SUBJECT`]: SubjectId::FORMAT_ISSUER_SUBJECT
     ///
     /// ```
     /// use subjectid::Atomic;
@@ -114,7 +114,7 @@ pub enum Atomic {
     /// The Opaque Identifier Format is identified by the name "opaque", that corresponds to
     /// [`FORMAT_OPAQUE`].
     ///
-    /// [`FORMAT_OPAQUE`]: crate::SubjectId::FORMAT_OPAQUE
+    /// [`FORMAT_OPAQUE`]: SubjectId::FORMAT_OPAQUE
     ///
     /// ```
     /// use subjectid::Atomic;
@@ -133,7 +133,7 @@ pub enum Atomic {
     /// ```
     /// use subjectid::Atomic;
     /// let sub_id = Atomic::PhoneNumber{
-    ///     phone_number: "+12065550100".to_owned(),
+    ///     phone_number: "+12065550100".parse().unwrap(),
     /// };
     /// println!("{:?}", sub_id);
     /// ```
@@ -143,7 +143,7 @@ pub enum Atomic {
         /// The "phone_number" member is REQUIRED and MUST NOT be null or empty.
         ///
         /// [`E164`]: https://www.itu.int/rec/T-REC-E.164-201011-I/en
-        phone_number: String,
+        phone_number: PhoneNumber,
     },
     /// The Decentralized Identifier Format identifies a subject using a Decentralized Identifier
     /// (DID) URL as defined in [`DID`].
@@ -229,7 +229,7 @@ mod test {
                 id: "khj23dj5k".to_owned(),
             },
             Atomic::PhoneNumber {
-                phone_number: "+68482245895".to_owned(),
+                phone_number: "+68482245895".parse().unwrap(),
             },
             Atomic::Did {
                 url: "did:example:1234".to_owned(),

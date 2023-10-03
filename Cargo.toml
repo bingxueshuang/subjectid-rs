@@ -1,5 +1,5 @@
 [package]
-name = "subjectid"
+name = "subject_id"
 version = "0.2.0"
 edition = "2021"
 description = "Implementation of Subject Identifiers for Security Event Tokens"

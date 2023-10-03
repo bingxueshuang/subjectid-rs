@@ -1,12 +1,11 @@
 use std::fmt::{Display, Formatter};
 use std::str::FromStr;
 
+use crate::Error;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::de::Visitor;
 use serde::{de, Deserialize, Deserializer, Serialize};
-
-use crate::Error;
 
 /// [PhoneNumber] defines the [`E.164`] formatted telephone numbers. The number may optionally
 /// begin with '+'. Maximum 15 digit telephone number is comprised of a CC (country code) prefix

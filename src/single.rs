@@ -2,9 +2,8 @@
 //! themselves (unlike `aliases` format). So, these are atomic subject identifiers and aliases
 //! format is composed of such atomic subject identifiers.
 
-use serde::{Deserialize, Serialize};
-
 use crate::{PhoneNumber, SubjectId};
+use serde::{Deserialize, Serialize};
 
 /// Atomic defines atomic subject identifier formats. They are 'atomic' because (unlike aliases)
 /// these are not composed of other subject identifiers themselves.
@@ -26,7 +25,7 @@ pub enum Atomic {
     /// [`FORMAT_ACCOUNT`]: SubjectId::FORMAT_ACCOUNT
     ///
     /// ```
-    /// use subjectid::Atomic;
+    /// use subject_id::Atomic;
     /// let sub_id = Atomic::Account{
     ///     uri: "acct:example.user@service.example.com".to_owned(),
     /// };
@@ -57,7 +56,7 @@ pub enum Atomic {
     /// [`FORMAT_EMAIL`]: SubjectId::FORMAT_EMAIL
     ///
     /// ```
-    /// use subjectid::Atomic;
+    /// use subject_id::Atomic;
     /// let sub_id = Atomic::Email{
     ///     email: "user@example.com".to_owned(),
     /// };
@@ -87,7 +86,7 @@ pub enum Atomic {
     /// [`FORMAT_ISSUER_SUBJECT`]: SubjectId::FORMAT_ISSUER_SUBJECT
     ///
     /// ```
-    /// use subjectid::Atomic;
+    /// use subject_id::Atomic;
     /// let sub_id = Atomic::IssuerSubject{
     ///     issuer: "https://issuer.example.com/".to_owned(),
     ///     subject: "145234573".to_owned(),
@@ -117,7 +116,7 @@ pub enum Atomic {
     /// [`FORMAT_OPAQUE`]: SubjectId::FORMAT_OPAQUE
     ///
     /// ```
-    /// use subjectid::Atomic;
+    /// use subject_id::Atomic;
     /// let sub_id = Atomic::Opaque{
     ///     id: "11112222333344445555".to_owned(),
     /// };
@@ -131,7 +130,7 @@ pub enum Atomic {
     /// The Phone Number Identifier Format is identified by the name "phone_number".
     ///
     /// ```
-    /// use subjectid::Atomic;
+    /// use subject_id::Atomic;
     /// let sub_id = Atomic::PhoneNumber{
     ///     phone_number: "+12065550100".parse().unwrap(),
     /// };
@@ -152,7 +151,7 @@ pub enum Atomic {
     /// [`DID`]: https://www.w3.org/TR/did-core/
     ///
     /// ```
-    /// use subjectid::Atomic;
+    /// use subject_id::Atomic;
     /// let sub_id = Atomic::Did{
     ///     url: "did:example:123456".to_owned(),
     /// };
@@ -172,7 +171,7 @@ pub enum Atomic {
     /// [`RFC3986`]: https://www.rfc-editor.org/info/rfc3986
     ///
     /// ```
-    /// use subjectid::Atomic;
+    /// use subject_id::Atomic;
     /// let sub_id = Atomic::Uri{
     ///     uri: "urn:uuid:4e851e98-83c4-4743-a5da-150ecb53042f".to_owned(),
     /// };
@@ -190,7 +189,7 @@ impl Atomic {
     /// atomic identifier.
     ///
     /// ```
-    /// use subjectid::{Atomic, SubjectId};
+    /// use subject_id::{Atomic, SubjectId};
     /// let sub_id = Atomic::Opaque { id: "lqk23j5l".to_owned() };
     /// let fmt = sub_id.format();
     /// assert_eq!(fmt, SubjectId::FORMAT_OPAQUE);

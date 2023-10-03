@@ -29,25 +29,23 @@
 
 use ::serde::{Deserialize, Serialize};
 
+pub use e164::PhoneNumber;
 pub use error::Error;
 pub use single::Atomic;
-pub use e164::PhoneNumber;
-
-mod single;
 
 mod e164;
-
 mod error;
+mod single;
 
 /// SubjectID is the core type of the crate that defines subject identifier for Security Event Token
 /// (SET). Either a subject identifier has to be [Atomic] or [Aliases].
 ///
 /// ```
-/// use subjectid::{Atomic, SubjectId};
-/// let subid = SubjectId::Atomic(
+/// use subject_id::{Atomic, SubjectId};
+/// let sub_id = SubjectId::Atomic(
 ///     Atomic::Opaque { id: "1i3j4l".to_owned() },
 /// );
-/// println!("{:?}", subid);
+/// println!("{:?}", sub_id);
 /// ```
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
